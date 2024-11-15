@@ -16,4 +16,9 @@ class EditPost extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
+    // Redirect to index after Create
+    public function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

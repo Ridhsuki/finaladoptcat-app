@@ -3,30 +3,47 @@
 namespace App\Filament\Resources;
 
 use Filament\Forms;
+use App\Models\Post;
 use Filament\Tables;
 use App\Models\Comment;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Illuminate\Support\Facades\Auth;
+use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\Select;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\CommentResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\CommentResource\RelationManagers;
+use App\Filament\Resources\CommentResource\RelationManagers\PostRelationManager;
+use App\Filament\Resources\CommentResource\RelationManagers\PostsRelationManager;
 
 class CommentResource extends Resource
 {
     protected static ?string $model = Comment::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
+    protected static ?string $navigationIcon = 'heroicon-o-chat-bubble-left-ellipsis';
+    protected static ?string $navigationGroup = 'User & Community';
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                TextInput::make('content')
+                // Input untuk memilih Post
+                Select::make('post_id') // Nama field yang sesuai dengan kolom relasi
+                    ->label('Select Post')
+                    ->options(Post::all()->pluck('title', 'id')) // Mengambil ID dan judul dari post
+                    ->searchable() // Agar dapat mencari
+                    ->required(), // Field ini wajib diisi
+                // Input lainnya seperti content
+                Forms\Components\Textarea::make('content')
+                    ->label('Comment')
+                    ->required(),
+                // TextInput::make('content')->label('Comment'),
+                Hidden::make('user_id')
+                    ->default(Auth::id()),
             ]);
     }
 
@@ -38,14 +55,24 @@ class CommentResource extends Resource
                 TextColumn::make('post.title')->label('Post'),
                 TextColumn::make('content'),
                 TextColumn::make('created_at')->dateTime(),
-                Forms\Components\Hidden::make('user_id')
-                    ->default(Auth::id()) 
             ])
             ->filters([
                 //
             ])
             ->actions([
+                Tables\Actions\ViewAction::make()
+                    ->form([
+                        Select::make('post_id') // Nama field yang sesuai dengan kolom relasi
+                            ->label('Select Post')
+                            ->options(Post::all()->pluck('title', 'id')) // Mengambil ID dan judul dari post
+                            ->searchable() // Agar dapat mencari
+                            ->required(), // Field ini wajib diisi
+                        // Input lainnya seperti content
+                        Forms\Components\Textarea::make('content')
+                            ->label('Comment')
+                    ]),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -57,7 +84,7 @@ class CommentResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            PostRelationManager::class
         ];
     }
 
@@ -66,7 +93,7 @@ class CommentResource extends Resource
         return [
             'index' => Pages\ListComments::route('/'),
             'create' => Pages\CreateComment::route('/create'),
-            'edit' => Pages\EditComment::route('/{record}/edit'),
+            // 'edit' => Pages\EditComment::route('/{record}/edit'),
         ];
     }
 }

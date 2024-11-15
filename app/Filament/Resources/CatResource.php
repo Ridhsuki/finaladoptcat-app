@@ -9,41 +9,52 @@ use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Illuminate\Support\Facades\Auth;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\FileUpload;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\CatResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\CatResource\RelationManagers;
+use Filament\Forms\Components\Card;
 
 class CatResource extends Resource
 {
     protected static ?string $model = Cat::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-heart';
+
+    protected static ?string $navigationGroup = 'User & Community';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name_cat')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('age')
-                    ->numeric(),
-                Forms\Components\Select::make('gender')
-                    ->options([
-                        'male' => 'Male',
-                        'female' => 'Female',
-                    ]),
-                Forms\Components\TextInput::make('description'),
-                Forms\Components\Select::make('status')
-                    ->options([
-                        'available' => 'Available',
-                        'pending' => 'Pending',
-                        'adopted' => 'Adopted',
-                    ]),
-                Forms\Components\FileUpload::make('cat_photo'),
-                Forms\Components\Hidden::make('user_id')
-                    ->default(Auth::id()) 
+                Card::make()->schema([
+                    TextInput::make('name_cat')
+                        ->required()
+                        ->maxLength(255),
+                    TextInput::make('age')
+                        ->numeric(),
+                    Select::make('gender')
+                        ->options([
+                            'male' => 'Male',
+                            'female' => 'Female',
+                        ])->default('Male')->placeholder('Select a gender'),
+                    TextInput::make('description'),
+                    Select::make('status')
+                        ->options([
+                            'available' => 'Available',
+                            'pending' => 'Pending',
+                            'adopted' => 'Adopted',
+                        ])
+                        ->label('Status')
+                        ->placeholder('Select a status')
+                        ->default('Available'),
+                    FileUpload::make('photo_url')->label('Photo'),
+                    Forms\Components\Hidden::make('user_id')
+                        ->default(Auth::id()) // Ambil ID user yang sedang login dan simpan sebagai user_id
+                ]),
             ]);
     }
 
@@ -56,13 +67,36 @@ class CatResource extends Resource
                 Tables\Columns\TextColumn::make('gender'),
                 Tables\Columns\TextColumn::make('description'),
                 Tables\Columns\TextColumn::make('status'),
-                Tables\Columns\ImageColumn::make('cat_photo')
+                Tables\Columns\ImageColumn::make('photo_url')
             ])
             ->filters([
                 //
             ])
             ->actions([
+                Tables\Actions\ViewAction::make()
+                    ->form([
+                        TextInput::make('name_cat'),
+                        TextInput::make('age')
+                            ->numeric(),
+                        Select::make('gender')
+                            ->options([
+                                'male' => 'Male',
+                                'female' => 'Female',
+                            ])->default('Male')->placeholder('Select a gender'),
+                        TextInput::make('description'),
+                        Select::make('status')
+                            ->options([
+                                'available' => 'Available',
+                                'pending' => 'Pending',
+                                'adopted' => 'Adopted',
+                            ])
+                            ->label('Status')
+                            ->placeholder('Select a status')
+                            ->default('Available'),
+                        FileUpload::make('photo_url')->label('Photo'),
+                    ]),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

@@ -9,4 +9,9 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateAdopsiPost extends CreateRecord
 {
     protected static string $resource = AdopsiPostResource::class;
+
+    public function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

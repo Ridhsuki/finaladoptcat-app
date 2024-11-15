@@ -4,27 +4,36 @@ namespace App\Filament\Resources;
 
 use Filament\Forms;
 use App\Models\Post;
+use Filament\Infolists\Components\Section;
 use Filament\Tables;
+use App\Models\Comment;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Card;
 use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Textarea;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Model;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\RichEditor;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\PostResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\PostResource\RelationManagers;
+use App\Filament\Resources\CommentResource\RelationManagers\PostRelationManager;
 
 class PostResource extends Resource
 {
     protected static ?string $model = Post::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+
+    protected static ?string $navigationGroup = 'Content Management';
+
 
     public static function form(Form $form): Form
     {
@@ -35,12 +44,26 @@ class PostResource extends Resource
                         'blog' => 'Blog',
                         'adoption' => 'Adoption'
                     ])->default('blog'),
-                TextInput::make('title'),
+                TextInput::make('title')
+                    ->required()
+                    ->unique(ignoreRecord: true),
                 RichEditor::make('content')
-                    ->hint('Translatable')
-                    ->hintColor('primary'),
+                    ->required()
+                    ->hintColor('primary')
+                    ->columnSpanFull(),
+                Card::make()->schema([
+                    Repeater::make('Comments')
+                        ->relationship()
+                        ->schema([
+                            TextInput::make('content')
+                                ->nullable()
+                                ->label('comment'),
+                            Forms\Components\Hidden::make('user_id')
+                                ->default(Auth::id())
+                        ])->collapsible(),
+                ]),
                 Forms\Components\Hidden::make('user_id')
-                    ->default(Auth::id()) // Mengambil ID user yang sedang login
+                    ->default(Auth::id())
             ]);
     }
 
@@ -48,20 +71,57 @@ class PostResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('title'),
+                TextColumn::make('user.name')
+                    ->label('Author')
+                    ->default(function ($livewire) {
+                        return $livewire->getOwnerRecord()?->name;
+                    })->searchable(),
                 TextColumn::make('type')
                     ->badge()
                     ->color(fn(string $state): string => match ($state) {
                         'blog' => 'gray',
                         'adoption' => 'success',
-                    }),
-                TextColumn::make('created_at')->dateTime()
+                    })->sortable(),
+                TextColumn::make('title')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('content')
+                    ->wrap(),
+                TextColumn::make('created_at')
+                    ->sortable()
+                    ->dateTime()
             ])
             ->filters([
-                //
+                SelectFilter::make('type')
+                    ->options([
+                        'blog' => 'Blog',
+                        'adoption' => 'Adoption'
+                    ]),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make()
+                    ->form([
+                        Select::make('type')
+                            ->options([
+                                'blog' => 'Blog',
+                                'adoption' => 'Adoption'
+                            ]),
+                        TextInput::make('title'),
+                        RichEditor::make('content')
+                            ->label('Content')
+                            ->hintColor('primary'),
+                        Card::make()->schema([
+                            Repeater::make('comments')
+                                ->relationship()
+                                ->schema([
+                                    TextInput::make('content')
+                                        ->nullable()
+                                        ->label("Comment's User"),
+                                ]),
+                        ])->label('Comments'),
+                    ]),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -73,7 +133,7 @@ class PostResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            // PostRelationManager::class,
         ];
     }
 

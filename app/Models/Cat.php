@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Cat extends Model
 {
     protected $fillable = [
+        'user_id',
         'name_cat',
         'age',
         'gender',

@@ -18,7 +18,7 @@ class VisitStatResource extends Resource
 {
     protected static ?string $model = VisitStat::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-chart-bar';
 
     public static function form(Form $form): Form
     {
