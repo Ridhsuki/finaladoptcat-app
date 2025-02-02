@@ -1,0 +1,34 @@
+/* Sembunyikan Bottom Nav di Desktop */
+@media (min-width: 768px) {
+    .bottom-nav {
+        display: none;
+    }
+}
+
+/* Sembunyikan Menu Desktop di Mobile */
+@media (max-width: 767px) {
+    .desktop-menu {
+        display: none;
+    }
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.animate-float {
+    animation: float 4s ease-in-out infinite;
+}
+
+::selection {
+    background-color: #D6A760;
+    color: #FAF3E3;
+}

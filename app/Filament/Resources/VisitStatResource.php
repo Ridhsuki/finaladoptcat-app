@@ -2,17 +2,13 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Forms;
 use Filament\Tables;
 use Filament\Forms\Form;
 use App\Models\VisitStat;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
-use Filament\Tables\Columns\TextColumn;
-use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\VisitStatResource\Pages;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\VisitStatResource\RelationManagers;
+use Filament\Tables\Actions\Action;
 
 class VisitStatResource extends Resource
 {
@@ -20,6 +16,11 @@ class VisitStatResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-chart-bar';
 
+    protected static ?string $navigationGroup = 'Others';
+    public static function canCreate(): bool
+    {
+        return false;  
+    }
     public static function form(Form $form): Form
     {
         return $form
@@ -32,10 +33,7 @@ class VisitStatResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('user.name')->label('User'),
-                TextColumn::make('post.title')->label('Post Title'),
-                TextColumn::make('views')->label('Views'),
-                TextColumn::make('created_at')->dateTime(),
+                //
             ])
             ->filters([
                 //
@@ -47,6 +45,16 @@ class VisitStatResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
+            ])
+            ->emptyStateIcon('heroicon-o-wrench-screwdriver')
+            ->emptyStateHeading('Feature Under Development')
+            ->emptyStateDescription('Visit statistics data is not available, or this feature is still under development. Please check back later.')
+            ->emptyStateActions([
+                Action::make('Support')
+                    ->label('Support')
+                    ->url('https://saweria.co/basukiridho')
+                    ->icon('heroicon-m-fire')
+                    ->button(),
             ]);
     }
 
@@ -61,8 +69,6 @@ class VisitStatResource extends Resource
     {
         return [
             'index' => Pages\ListVisitStats::route('/'),
-            'create' => Pages\CreateVisitStat::route('/create'),
-            'edit' => Pages\EditVisitStat::route('/{record}/edit'),
         ];
     }
 }

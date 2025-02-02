@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Post extends Model
 {
     protected $fillable = [
-        'type', 'title', 'content', 'user_id'
+        'type', 'title', 'content', 'user_id', 'blog_image'
     ];
 
     public function user(): BelongsTo

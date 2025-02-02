@@ -23,8 +23,8 @@ class PostRelationManager extends RelationManager
                     Forms\Components\Select::make('post_id') // Ganti 'name' dengan 'post_id'
                         ->label('Select Post') 
                         ->options(Post::all()->pluck('title', 'id')) // Pilih berdasarkan ID, gunakan 'id' untuk 'post_id'
-                        ->searchable() // Agar dapat mencari post
-                        ->required() // Menjadikan field ini wajib diisi
+                        ->searchable() 
+                        ->required() 
             ]);
     }
 

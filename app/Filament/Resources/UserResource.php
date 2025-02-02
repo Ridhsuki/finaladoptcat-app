@@ -19,6 +19,8 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\UserResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\UserResource\RelationManagers;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Support\Htmlable;
 
 class UserResource extends Resource
 {
@@ -27,6 +29,8 @@ class UserResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
     protected static ?string $navigationGroup = 'User & Community';
+
+    protected static ?string $recordTitleAttribute = 'name';
 
     public static function form(Form $form): Form
     {
@@ -60,22 +64,24 @@ class UserResource extends Resource
                 TextColumn::make('email')->searchable(),
                 TextColumn::make('phone')->searchable()->copyable(),
                 // TextColumn::make('password'),
-                ImageColumn::make('profile_picture'),
+                ImageColumn::make('profile_picture')->circular(),
                 TextColumn::make('created_at')->dateTime(),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make()
-                    ->form([
-                        TextInput::make('name'),
-                        TextInput::make('email'),
-                        TextInput::make('phone'),
-                        FileUpload::make('profile_picture'),
-                    ]),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\ViewAction::make()
+                        ->form([
+                            TextInput::make('name'),
+                            TextInput::make('email'),
+                            TextInput::make('phone'),
+                            FileUpload::make('profile_picture'),
+                        ]),
+                    // Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make(),
+                ])
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -96,7 +102,7 @@ class UserResource extends Resource
         return [
             'index' => Pages\ListUsers::route('/'),
             'create' => Pages\CreateUser::route('/create'),
-            'edit' => Pages\EditUser::route('/{record}/edit'),
+            // 'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
     }
 }

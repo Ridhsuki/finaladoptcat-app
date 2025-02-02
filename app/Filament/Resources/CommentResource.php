@@ -35,13 +35,12 @@ class CommentResource extends Resource
                 Select::make('post_id') // Nama field yang sesuai dengan kolom relasi
                     ->label('Select Post')
                     ->options(Post::all()->pluck('title', 'id')) // Mengambil ID dan judul dari post
-                    ->searchable() // Agar dapat mencari
-                    ->required(), // Field ini wajib diisi
+                    ->searchable()
+                    ->required(),
                 // Input lainnya seperti content
                 Forms\Components\Textarea::make('content')
                     ->label('Comment')
                     ->required(),
-                // TextInput::make('content')->label('Comment'),
                 Hidden::make('user_id')
                     ->default(Auth::id()),
             ]);
@@ -53,26 +52,28 @@ class CommentResource extends Resource
             ->columns([
                 TextColumn::make('user.name')->label('User'),
                 TextColumn::make('post.title')->label('Post'),
-                TextColumn::make('content'),
+                TextColumn::make('content')->limit(20),
                 TextColumn::make('created_at')->dateTime(),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make()
-                    ->form([
-                        Select::make('post_id') // Nama field yang sesuai dengan kolom relasi
-                            ->label('Select Post')
-                            ->options(Post::all()->pluck('title', 'id')) // Mengambil ID dan judul dari post
-                            ->searchable() // Agar dapat mencari
-                            ->required(), // Field ini wajib diisi
-                        // Input lainnya seperti content
-                        Forms\Components\Textarea::make('content')
-                            ->label('Comment')
-                    ]),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\ViewAction::make()
+                        ->form([
+                            Select::make('post_id') // Nama field yang sesuai dengan kolom relasi
+                                ->label('Select Post')
+                                ->options(Post::all()->pluck('title', 'id')) // Mengambil ID dan judul dari post
+                                ->searchable() // Agar dapat mencari
+                                ->required(), // Field ini wajib diisi
+                            // Input lainnya seperti content
+                            Forms\Components\Textarea::make('content')
+                                ->label('Comment')
+                        ]),
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make(),
+                ])
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

@@ -12,6 +12,7 @@ class Cat extends Model
         'name_cat',
         'age',
         'gender',
+        'location',
         'description',
         'status',
         'photo_url'
@@ -22,6 +23,6 @@ class Cat extends Model
     }
     public function adoptPost()
     {
-        return $this->hasMany(AdopsiPost::class);
+        return $this->hasOne(AdopsiPost::class, 'cat_id');
     }
 }

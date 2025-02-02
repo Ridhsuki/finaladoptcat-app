@@ -25,6 +25,7 @@ use App\Filament\Resources\PostResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\PostResource\RelationManagers;
 use App\Filament\Resources\CommentResource\RelationManagers\PostRelationManager;
+use Filament\Forms\Components\Section as ComponentsSection;
 
 class PostResource extends Resource
 {
@@ -33,6 +34,7 @@ class PostResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
     protected static ?string $navigationGroup = 'Content Management';
+    protected static ?string $recordTitleAttribute = 'title';
 
 
     public static function form(Form $form): Form
@@ -85,11 +87,11 @@ class PostResource extends Resource
                 TextColumn::make('title')
                     ->sortable()
                     ->searchable(),
-                TextColumn::make('content')
-                    ->wrap(),
+                // TextColumn::make('content')
+                //     ->wrap()->limit(50),
                 TextColumn::make('created_at')
                     ->sortable()
-                    ->dateTime()
+                    ->dateTime('Y-m-d')
             ])
             ->filters([
                 SelectFilter::make('type')
@@ -99,29 +101,38 @@ class PostResource extends Resource
                     ]),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make()
-                    ->form([
-                        Select::make('type')
-                            ->options([
-                                'blog' => 'Blog',
-                                'adoption' => 'Adoption'
-                            ]),
-                        TextInput::make('title'),
-                        RichEditor::make('content')
-                            ->label('Content')
-                            ->hintColor('primary'),
-                        Card::make()->schema([
-                            Repeater::make('comments')
-                                ->relationship()
-                                ->schema([
-                                    TextInput::make('content')
-                                        ->nullable()
-                                        ->label("Comment's User"),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\ViewAction::make()
+                        ->form([
+                            TextInput::make('user.name')
+                                ->label('Author')
+                                ->default(function ($livewire) {
+                                    return $livewire->getOwnerRecord()?->name;
+                                }),
+                            Select::make('type')
+                                ->options([
+                                    'blog' => 'Blog',
+                                    'adoption' => 'Adoption'
                                 ]),
-                        ])->label('Comments'),
-                    ]),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                            TextInput::make('title'),
+                            RichEditor::make('content')
+                                ->label('Content')
+                                ->hintColor('primary'),
+                            ComponentsSection::make('comments')
+                                ->description('This is comment from users')
+                                ->schema([
+                                    Repeater::make('comments')->label('')
+                                        ->relationship()
+                                        ->schema([
+                                            TextInput::make('content')
+                                                ->nullable()
+                                                ->label("Comment's User"),
+                                        ]),
+                                ])->label('Comments'),
+                        ]),
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make(),
+                ])
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -133,7 +144,7 @@ class PostResource extends Resource
     public static function getRelations(): array
     {
         return [
-            // PostRelationManager::class,
+            //
         ];
     }
 
