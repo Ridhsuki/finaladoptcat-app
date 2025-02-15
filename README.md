@@ -7,62 +7,87 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+# FinalAdoptCat - Laravel Adoption Website
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+![Project Banner](https://res.cloudinary.com/dv8jmnzaf/image/upload/v1739615336/Screenshot_2025-02-15_170723_akolhh.png)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 📌 About This Project
+This repository is the **Final Project for Semester 1** at **IDN Polytechnic**, where I developed a **Cat Adoption Website** using Laravel. This repository serves as a companion to my **Final Project Module**, containing the source code referenced in the documentation.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 🌟 Features
+This website provides various features, including:
+- 🐾 **Cat Adoption Submission**
+- 📝 **Blog System** (Create, Read, Update, Delete)
+- 💬 **Commenting on Blogs**
+- ⚡ **User Post Management**
+- 🔔 **Notifications System**
+- 🛠 **Admin Panel for Website Management**
+- 🎨 **Modern UI with Tailwind CSS, Preline, and Flowbite**
+- 📊 **More features can be explored directly on the website!**
 
-## Learning Laravel
+## 🛠 Technologies Used
+- **Laravel** - PHP Framework for Web Development
+- **Filament** - Admin Panel and Dashboard Management
+- **Tailwind CSS** - Utility-first CSS Framework
+- **Preline & Flowbite** - UI Components for Tailwind CSS
+- **MySQL** - Relational Database
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 🎥 Demo & Resources
+🔗 **Live Website:** [AdoptCat Website](https://adoptcat.ridhsuki.my.id/)  
+📑 **Project Module:** [Final Project Documentation](https://drive.google.com/file/d/1hou7E6rViWBELtbBBshFzLTXZZJpkojn/view?usp=sharing)  
+📽 **Presentation:** [Canva Presentation](https://www.canva.com/design/DAGYbfrVjtY/r9RXw1rq478rUmFX4nBleA/edit?utm_content=DAGYbfrVjtY&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)  
+📌 **Project Management Board:** [To-Do Board on Notion](https://famous-enemy-35d.notion.site/12d8311b0a5980189bdaeaafa8ab9263?v=12d8311b0a598169a75c000c58536733&pvs=4)
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## 📸 Screenshots
+Here are some screenshots of the website:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+<div style="display: flex; flex-wrap: wrap; gap: 10px;">
+    <img src="https://res.cloudinary.com/dv8jmnzaf/image/upload/v1739615393/Screenshot_131_dqyc2f.png" width="500" alt="Homepage Screenshot">
+    <img src="https://res.cloudinary.com/dv8jmnzaf/image/upload/v1739615396/Screenshot_132_ljdxdr.png" width="500" alt="Detail Adoption Screenshoot">
+    <img src="https://res.cloudinary.com/dv8jmnzaf/image/upload/v1739615368/Screenshot_133_m710wv.png" width="500" alt="Blog Page Screenshot">
+    <img src="https://res.cloudinary.com/dv8jmnzaf/image/upload/v1739615360/Screenshot_130_q0an2r.png" width="500" alt="Admin Panel Filament Screenshot">
+</div>
 
-## Laravel Sponsors
+## 🚀 How to Run the Project Locally
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/Ridhsuki/finaladoptcat-app.git
+   cd finaladoptcat-app
+   ```
+2. **Install Dependencies**
+   ```bash
+   composer install
+   npm install
+   ```
+3. **Set Up Environment** 
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
+4. **Configure Database & Run Migrations.** before that, please edit the connection to the database first
+   ```bash
+   php artisan migrate
+   ```
+5. **Clear cache & configurations**
+   ```sh
+   php artisan config:clear
+   php artisan cache:clear
+   php artisan view:clear
+   ```
+6. **Build assets & Run the Project**
+   ```bash
+   npm run build
+   php artisan serve
+   ```
+7. Open the browser and visit **http://127.0.0.1:8000**
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## 📢 Connect with Me
+📌 **Facebook**: [Basuki Ridho](https://facebook.com/basuki.ridho.921)  
+📷 **Instagram**: [@basukiridhoal](https://www.instagram.com/basukiridhoal/?hl=de)  
+🎶 **TikTok**: [@ridhsuki_dev](https://www.tiktok.com/@ritsuchi_dev)  
+💼 **LinkedIn**: [Basuki Ridho Al Ghifari](https://www.linkedin.com/in/basuki-ridho/)  
 
-### Premium Partners
+---
+💖 **Thank you for visiting this repository!** If you find this project helpful, feel free to **star** 🌟 this repository! 🚀
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
 
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-
-Cek
