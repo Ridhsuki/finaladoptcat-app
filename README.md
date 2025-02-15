@@ -41,11 +41,11 @@ This website provides various features, including:
 ## 📸 Screenshots
 Here are some screenshots of the website:
 
-<div style="display: flex; flex-wrap: wrap; gap: 10px;">
-    <img src="https://res.cloudinary.com/dv8jmnzaf/image/upload/v1739615393/Screenshot_131_dqyc2f.png" width="500" alt="Homepage Screenshot">
-    <img src="https://res.cloudinary.com/dv8jmnzaf/image/upload/v1739615396/Screenshot_132_ljdxdr.png" width="500" alt="Detail Adoption Screenshoot">
-    <img src="https://res.cloudinary.com/dv8jmnzaf/image/upload/v1739615368/Screenshot_133_m710wv.png" width="500" alt="Blog Page Screenshot">
-    <img src="https://res.cloudinary.com/dv8jmnzaf/image/upload/v1739615360/Screenshot_130_q0an2r.png" width="500" alt="Admin Panel Filament Screenshot">
+<div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; align-items: center;" align="center">
+    <img src="https://res.cloudinary.com/dv8jmnzaf/image/upload/v1739615393/Screenshot_131_dqyc2f.png" width="400" alt="Homepage Screenshot">
+    <img src="https://res.cloudinary.com/dv8jmnzaf/image/upload/v1739615396/Screenshot_132_ljdxdr.png" width="400" alt="Detail Adoption Screenshoot">
+    <img src="https://res.cloudinary.com/dv8jmnzaf/image/upload/v1739615368/Screenshot_133_m710wv.png" width="400" alt="Blog Page Screenshot">
+    <img src="https://res.cloudinary.com/dv8jmnzaf/image/upload/v1739615360/Screenshot_130_q0an2r.png" width="400" alt="Admin Panel Filament Screenshot">
 </div>
 
 ## 🚀 How to Run the Project Locally
@@ -84,7 +84,7 @@ Here are some screenshots of the website:
 ## 📢 Connect with Me
 📌 **Facebook**: [Basuki Ridho](https://facebook.com/basuki.ridho.921)  
 📷 **Instagram**: [@basukiridhoal](https://www.instagram.com/basukiridhoal/?hl=de)  
-🎶 **TikTok**: [@ridhsuki_dev](https://www.tiktok.com/@ritsuchi_dev)  
+🎶 **TikTok**: [@ridhsuki dev](https://www.tiktok.com/@ritsuchi_dev)  
 💼 **LinkedIn**: [Basuki Ridho Al Ghifari](https://www.linkedin.com/in/basuki-ridho/)  
 
 ---
